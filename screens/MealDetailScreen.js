@@ -1,31 +1,70 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import { CATEGORIES, MEALS } from "../data/dummy-data ";
-
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Image,
+  ScrollView
+} from "react-native";
+import { MEALS } from "../data/dummy-data ";
+import DefaultText from "../components/DefaultText";
+const ListItem = props => {
+  return (
+    <View style={styles.listItem}>
+      <DefaultText>{props.children}</DefaultText>
+    </View>
+  );
+};
 const MealDetailScreen = props => {
   const { navigation, route } = props;
   const catId = route.params.mealId;
-
   const selectedMeal = MEALS.find(meal => meal.id === catId);
   return (
-    <View style={styles.container}>
-      <Text>{selectedMeal.title}</Text>
-      <Button
-        title="go back to categories"
-        onPress={() => {
-          navigation.popToTop();
-        }}
-      />
-    </View>
+    <ScrollView>
+      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
+      <View style={styles.details}>
+        <DefaultText>{selectedMeal.duration}m</DefaultText>
+        <DefaultText>{selectedMeal.complexity.toUpperCase()}</DefaultText>
+        <DefaultText>{selectedMeal.affordability.toUpperCase()}</DefaultText>
+      </View>
+      <Text style={styles.title}>Ingredients</Text>
+      {selectedMeal
+        ? selectedMeal.ingredients.map((ingredient, index) => (
+            <ListItem key={index}>{ingredient}</ListItem>
+          ))
+        : null}
+      <Text style={styles.title}>steps</Text>
+      {selectedMeal
+        ? selectedMeal.steps.map((step, index) => (
+            <ListItem key={index}>{step}</ListItem>
+          ))
+        : null}
+    </ScrollView>
   );
 };
 
 export default MealDetailScreen;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+  image: {
+    width: "100%",
+    height: 200
+  },
+  details: {
+    flexDirection: "row",
+    padding: 15,
+    justifyContent: "space-around"
+  },
+  title: {
+    fontFamily: "open-sans-bold",
+    fontSize: 22,
+    textAlign: "center"
+  },
+  listItem: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    padding: 10
   }
 });

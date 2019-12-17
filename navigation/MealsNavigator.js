@@ -45,7 +45,7 @@ const MealsNavigator = ({ navigation, route }) => {
         gestureDirection: "horizontal",
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerStyle: { backgroundColor: Colors.accent },
-        headerTitleStyle: { color: "white" },
+        headerTitleStyle: { color: "white", fontFamily: "open-sans-bold" },
         headerTintColor: "#fff"
       }}
     >
@@ -80,7 +80,7 @@ const MealsNavigator = ({ navigation, route }) => {
         component={MealDetailScreen}
         options={({ route }) => ({
           title: getHeaderTitle(route),
-          headerTitleStyle: { maxWidth: 300 },
+          headerTitleStyle: { maxWidth: 300, fontFamily: "open-sans" },
           headerRight: () => (
             <Ionicons
               size={23}
@@ -110,8 +110,10 @@ const FavoriteStackNav = ({ navigation, route }) => {
         gestureEnabled: true,
         gestureDirection: "horizontal",
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        headerStyle: { backgroundColor: Colors.accent },
-        headerTitleStyle: { color: "white" },
+        headerStyle: {
+          backgroundColor: Colors.accent
+        },
+        headerTitleStyle: { color: "white", fontFamily: "open-sans-bold" },
         headerTintColor: "#fff"
       }}
     >
@@ -138,7 +140,7 @@ const FavoriteStackNav = ({ navigation, route }) => {
         component={MealDetailScreen}
         options={({ route }) => ({
           title: getHeaderTitle(route),
-          headerTitleStyle: { maxWidth: 300 },
+          headerTitleStyle: { maxWidth: 300, fontFamily: "open-sans" },
           headerRight: () => (
             <Ionicons
               size={23}
@@ -190,7 +192,14 @@ const FilterStackNav = () => (
   </FilterStack.Navigator>
 );
 const DrawerNav = () => (
-  <Drawer.Navigator>
+  <Drawer.Navigator
+    drawerContentOptions={{
+      activeTintColor: Colors.accent,
+      labelStyle: {
+        fontFamily: "open-sans"
+      }
+    }}
+  >
     <Drawer.Screen name="MealsFav" component={HomeTabNavigator} />
     <Drawer.Screen name="Filters" component={FilterStackNav} />
   </Drawer.Navigator>
