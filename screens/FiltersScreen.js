@@ -7,8 +7,8 @@ const FilterSwitch = props => {
     <View style={styles.filterContent}>
       <DefaultText>{props.label}</DefaultText>
       <Switch
-        // trackColor={{ true: Colors.accent }}
-        // thumbColor={"white"}
+        trackColor={{ true: Colors.accent }}
+        thumbColor={"white"}
         value={props.state}
         onValueChange={props.onChange}
       />
