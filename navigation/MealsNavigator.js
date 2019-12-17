@@ -8,14 +8,19 @@ import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryMeal from "../screens/CategoryMeal";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
+import FiltersScreen from "../screens/FiltersScreen";
 
 import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
+const FavoriteStack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+const FilterStack = createStackNavigator();
 
 function getHeaderTitle(route) {
   const routeName = route.params ? route.params.title : "Categories";
@@ -43,13 +48,23 @@ const MealsNavigator = ({ navigation, route }) => {
         headerTitleStyle: { color: "white" },
         headerTintColor: "#fff"
       }}
-      headerMode="float"
     >
       <Stack.Screen
         name="Categories"
         component={CategoriesScreen}
         options={{
-          title: "Meals Categories"
+          title: "Meals Categories",
+          headerLeft: () => (
+            <Ionicons
+              name="ios-menu"
+              size={26}
+              color="white"
+              onPress={() => {
+                navigation.toggleDrawer();
+              }}
+            />
+          ),
+          headerLeftContainerStyle: { marginLeft: 30 }
         }}
       />
       <Stack.Screen
@@ -85,6 +100,64 @@ const MealsNavigator = ({ navigation, route }) => {
     </Stack.Navigator>
   );
 };
+
+const FavoriteStackNav = ({ navigation, route }) => {
+  return (
+    <FavoriteStack.Navigator
+      headerMode="float"
+      animation="fade"
+      screenOptions={{
+        gestureEnabled: true,
+        gestureDirection: "horizontal",
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        headerStyle: { backgroundColor: Colors.accent },
+        headerTitleStyle: { color: "white" },
+        headerTintColor: "#fff"
+      }}
+    >
+      <FavoriteStack.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          title: "Your Favorites",
+          headerLeft: () => (
+            <Ionicons
+              name="ios-menu"
+              size={26}
+              color="white"
+              onPress={() => {
+                navigation.toggleDrawer();
+              }}
+            />
+          ),
+          headerLeftContainerStyle: { marginLeft: 30 }
+        }}
+      />
+      <FavoriteStack.Screen
+        name="MealDetailScreen"
+        component={MealDetailScreen}
+        options={({ route }) => ({
+          title: getHeaderTitle(route),
+          headerTitleStyle: { maxWidth: 300 },
+          headerRight: () => (
+            <Ionicons
+              size={23}
+              color={"white"}
+              name={"ios-star"}
+              onPress={() => {
+                alert("123");
+              }}
+            />
+          ),
+          headerRightContainerStyle: {
+            marginRight: 20
+          }
+          // headerShown: shouldheaderBeShown(route)
+        })}
+      />
+    </FavoriteStack.Navigator>
+  );
+};
 const HomeTabNavigator = () => (
   <Tab.Navigator
     tabBarOptions={{
@@ -108,8 +181,19 @@ const HomeTabNavigator = () => (
     })}
   >
     <Tab.Screen name="Meals" component={MealsNavigator} />
-    <Tab.Screen name="Favorites" component={FavoritesScreen} />
+    <Tab.Screen name="Favorites" component={FavoriteStackNav} />
   </Tab.Navigator>
+);
+const FilterStackNav = () => (
+  <FilterStack.Navigator>
+    <FilterStack.Screen component={FiltersScreen} name="Filters" />
+  </FilterStack.Navigator>
+);
+const DrawerNav = () => (
+  <Drawer.Navigator>
+    <Drawer.Screen name="MealsFav" component={HomeTabNavigator} />
+    <Drawer.Screen name="Filters" component={FilterStackNav} />
+  </Drawer.Navigator>
 );
 const AppNavigator = () => {
   return (
@@ -117,7 +201,7 @@ const AppNavigator = () => {
       <AppStack.Navigator>
         <Stack.Screen
           name="Home"
-          component={HomeTabNavigator}
+          component={DrawerNav}
           options={({ route }) => ({
             headerShown: false
             // title: getHeaderTitle(route),
