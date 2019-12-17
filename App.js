@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-import MealsNavigation from "./navigation/MealsNavigator";
+import AppNavigator from "./navigation/MealsNavigator";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -19,5 +19,5 @@ export default function App() {
       />
     );
   }
-  return <MealsNavigation />;
+  return <AppNavigator />;
 }

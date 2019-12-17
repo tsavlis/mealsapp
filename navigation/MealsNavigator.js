@@ -7,8 +7,15 @@ import {
 import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryMeal from "../screens/CategoryMeal";
 import MealDetailScreen from "../screens/MealDetailScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
+
 import Colors from "../constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const AppStack = createStackNavigator();
 
 function getHeaderTitle(route) {
   const routeName = route.params ? route.params.title : "Categories";
@@ -22,39 +29,104 @@ function shouldheaderBeShown(route) {
       return false;
   }
 }
-const MealsNavigator = () => {
+
+const MealsNavigator = ({ navigation, route }) => {
+  return (
+    <Stack.Navigator
+      headerMode="float"
+      animation="fade"
+      screenOptions={{
+        gestureEnabled: true,
+        gestureDirection: "horizontal",
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        headerStyle: { backgroundColor: Colors.accent },
+        headerTitleStyle: { color: "white" },
+        headerTintColor: "#fff"
+      }}
+      headerMode="float"
+    >
+      <Stack.Screen
+        name="Categories"
+        component={CategoriesScreen}
+        options={{
+          title: "Meals Categories"
+        }}
+      />
+      <Stack.Screen
+        name="CategoryMeal"
+        component={CategoryMeal}
+        options={({ route }) => ({
+          title: getHeaderTitle(route)
+          // headerShown: shouldheaderBeShown(route)
+        })}
+      />
+      <Stack.Screen
+        name="MealDetailScreen"
+        component={MealDetailScreen}
+        options={({ route }) => ({
+          title: getHeaderTitle(route),
+          headerTitleStyle: { maxWidth: 300 },
+          headerRight: () => (
+            <Ionicons
+              size={23}
+              color={"white"}
+              name={"ios-star"}
+              onPress={() => {
+                alert("123");
+              }}
+            />
+          ),
+          headerRightContainerStyle: {
+            marginRight: 20
+          }
+          // headerShown: shouldheaderBeShown(route)
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+const HomeTabNavigator = () => (
+  <Tab.Navigator
+    tabBarOptions={{
+      activeTintColor: "white",
+      activeBackgroundColor: Colors.accent,
+      inactiveTintColor: Colors.accent,
+      labelStyle: { paddingBottom: 3 }
+    }}
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ color, size }) => {
+        let iconName;
+        if (route.name === "Meals") {
+          iconName = "ios-restaurant";
+        } else if (route.name === "Favorites") {
+          iconName = "ios-star";
+        } else if (route.name === "Settings") {
+          iconName = "ios-settings";
+        }
+        return <Ionicons name={iconName} size={23} color={color} />;
+      }
+    })}
+  >
+    <Tab.Screen name="Meals" component={MealsNavigator} />
+    <Tab.Screen name="Favorites" component={FavoritesScreen} />
+  </Tab.Navigator>
+);
+const AppNavigator = () => {
   return (
     <NavigationNativeContainer>
-      <Stack.Navigator
-        headerMode="float"
-        animation="fade"
-        screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: "horizontal",
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-        }}
-      >
+      <AppStack.Navigator>
         <Stack.Screen
-          name="Categories"
-          component={CategoriesScreen}
-          options={{
-            title: "home",
-            headerStyle: { backgroundColor: Colors.accent }
-          }}
-        />
-        <Stack.Screen
-          name="CategoryMeal"
-          component={CategoryMeal}
+          name="Home"
+          component={HomeTabNavigator}
           options={({ route }) => ({
-            title: getHeaderTitle(route),
-            headerStyle: { backgroundColor: Colors.primary }
-            // headerShown: shouldheaderBeShown(route)
+            headerShown: false
+            // title: getHeaderTitle(route),
+            //  headerShown: shouldheaderBeShown(route)
           })}
         />
-        <Stack.Screen name="MealDetailScreen" component={MealDetailScreen} />
-      </Stack.Navigator>
+      </AppStack.Navigator>
     </NavigationNativeContainer>
   );
 };
 
-export default MealsNavigator;
+export default AppNavigator;

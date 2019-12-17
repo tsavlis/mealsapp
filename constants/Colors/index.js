@@ -1,6 +1,6 @@
 const Colors = {
-  primary: "red",
-  accent: "blue"
+  primary: "#ffcdf9",
+  accent: "#8d1f81"
 };
 
 export default Colors;

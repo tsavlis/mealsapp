@@ -3,9 +3,13 @@ class Meal {
     id,
     categoryIds,
     title,
+
     affordability,
+
     complexity,
     imageUrl,
+    duration,
+
     ingredients,
     steps,
     isGlutenFree,
@@ -18,6 +22,7 @@ class Meal {
     this.title = title;
     this.imageUrl = imageUrl;
     this.ingredients = ingredients;
+    this.duration = duration;
     this.steps = steps;
     this.affordability = affordability;
     this.complexity = complexity;
