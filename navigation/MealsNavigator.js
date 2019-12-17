@@ -186,11 +186,51 @@ const HomeTabNavigator = () => (
     <Tab.Screen name="Favorites" component={FavoriteStackNav} />
   </Tab.Navigator>
 );
-const FilterStackNav = () => (
-  <FilterStack.Navigator>
-    <FilterStack.Screen component={FiltersScreen} name="Filters" />
-  </FilterStack.Navigator>
-);
+const FilterStackNav = ({ navigation, route }) => {
+  return (
+    <FilterStack.Navigator
+      screenOptions={{
+        gestureEnabled: true,
+        gestureDirection: "horizontal",
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        headerStyle: {
+          backgroundColor: Colors.accent
+        },
+        headerTitleStyle: { color: "white", fontFamily: "open-sans-bold" },
+        headerTintColor: "#fff"
+      }}
+    >
+      <FilterStack.Screen
+        component={FiltersScreen}
+        name="Filters"
+        options={{
+          headerLeft: () => (
+            <Ionicons
+              name="ios-menu"
+              size={26}
+              color="white"
+              onPress={() => {
+                navigation.toggleDrawer();
+              }}
+            />
+          ),
+          headerRight: () => (
+            <Ionicons
+              name="ios-save"
+              size={26}
+              color="white"
+              onPress={() => {
+                console.log(route.state.routes[route.state.index].params);
+              }}
+            />
+          ),
+          headerRightContainerStyle: { marginRight: 30 },
+          headerLeftContainerStyle: { marginLeft: 30 }
+        }}
+      />
+    </FilterStack.Navigator>
+  );
+};
 const DrawerNav = () => (
   <Drawer.Navigator
     drawerContentOptions={{
