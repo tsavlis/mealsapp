@@ -83,7 +83,7 @@ const MealsNavigator = ({ navigation, route }) => {
             <Ionicons
               size={23}
               color={"white"}
-              name={"ios-star"}
+              name={route.params.favs ? "ios-star-outline" : "ios-star"}
               onPress={() => {
                 route.params.handler();
               }}
@@ -143,7 +143,7 @@ const FavoriteStackNav = ({ navigation, route }) => {
             <Ionicons
               size={23}
               color={"white"}
-              name={"ios-star"}
+              name={route.params.favs ? "ios-star-outline" : "ios-star"}
               onPress={() => {
                 route.params.handler();
               }}
@@ -212,17 +212,17 @@ const FilterStackNav = ({ navigation, route }) => {
               }}
             />
           ),
-          headerRight: () => (
-            <Ionicons
-              name="ios-save"
-              size={26}
-              color="white"
-              onPress={() => {
-                console.log(route.state.routes[route.state.index].params);
-              }}
-            />
-          ),
-          headerRightContainerStyle: { marginRight: 30 },
+          // headerRight: () => (
+          //   <Ionicons
+          //     name="ios-save"
+          //     size={26}
+          //     color="white"
+          //     onPress={() => {
+          //       console.log(route.state.routes[route.state.index].params);
+          //     }}
+          //   />
+          // ),
+          // headerRightContainerStyle: { marginRight: 30 },
           headerLeftContainerStyle: { marginLeft: 30 }
         }}
       />
