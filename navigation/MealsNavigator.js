@@ -9,12 +9,10 @@ import CategoryMeal from "../screens/CategoryMeal";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import FiltersScreen from "../screens/FiltersScreen";
-
 import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const AppStack = createStackNavigator();
@@ -87,7 +85,7 @@ const MealsNavigator = ({ navigation, route }) => {
               color={"white"}
               name={"ios-star"}
               onPress={() => {
-                alert("123");
+                route.params.handler();
               }}
             />
           ),
@@ -147,7 +145,7 @@ const FavoriteStackNav = ({ navigation, route }) => {
               color={"white"}
               name={"ios-star"}
               onPress={() => {
-                alert("123");
+                route.params.handler();
               }}
             />
           ),

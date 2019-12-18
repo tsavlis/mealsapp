@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -7,8 +7,9 @@ import {
   Image,
   ScrollView
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import DefaultText from "../components/DefaultText";
+import { toggleFavorite } from "../store/actions/meals.action";
 const ListItem = props => {
   return (
     <View style={styles.listItem}>
@@ -20,8 +21,15 @@ const MealDetailScreen = props => {
   const { navigation, route } = props;
   const catId = route.params.mealId;
   const allmeals = useSelector(state => state.meals.meals);
-
+  const dispatch = useDispatch();
+  const toggleFavHandle = useCallback(() => {
+    dispatch(toggleFavorite(catId));
+  }, [dispatch, catId]);
   const selectedMeal = allmeals.find(meal => meal.id === catId);
+
+  useEffect(() => {
+    navigation.setParams({ handler: toggleFavHandle });
+  }, [toggleFavHandle]);
   return (
     <ScrollView>
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
