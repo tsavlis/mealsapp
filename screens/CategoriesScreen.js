@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   FlatList
 } from "react-native";
-import { CATEGORIES, MEALS } from "../data/dummy-data ";
+import { CATEGORIES } from "../data/dummy-data ";
 import { Colors } from "../constants/Colors";
 import CategoryGridTittle from "../components/CategoryGridTittle";
 
