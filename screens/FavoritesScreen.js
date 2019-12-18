@@ -16,7 +16,6 @@ const FavoritesScreen = props => {
   return <MealList data={favMeals} navigation={navigation} />;
 };
 
-export default FavoritesScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -25,3 +24,5 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+export default FavoritesScreen;
